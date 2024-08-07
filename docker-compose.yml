@@ -1,0 +1,12 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_data:
+    name: jamoveo_mongo_data
