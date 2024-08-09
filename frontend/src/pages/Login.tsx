@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { User } from "../types";
 import { API_URL } from "../config";
 import Logo from "../components/Logo";
+import { encryptPassword } from "../utils/encryption";
 
 type LoginProps = {
   onLogin: (user: User) => void;
@@ -16,10 +17,12 @@ const Login = ({ onLogin }: LoginProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const encryptedPassword = encryptPassword(password);
+
       const response = await fetch(API_URL + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, isAdmin: false }),
+        body: JSON.stringify({ username, encryptedPassword, isAdmin: false }),
       });
       if (response.ok) {
         const user = await response.json();

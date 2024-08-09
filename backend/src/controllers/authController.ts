@@ -1,16 +1,24 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user";
+import { decryptPassword } from "../utils/encryption";
 
 export const signup = async (req: Request, res: Response) => {
   console.log("User signup");
   try {
-    const { username, password, instrument, isAdmin = false } = req.body;
+    const {
+      username,
+      encryptedPassword,
+      instrument,
+      isAdmin = false,
+    } = req.body;
 
     const existingUser = await User.findByUsername(username);
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
+
+    const password = decryptPassword(encryptedPassword);
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -31,13 +39,15 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  console.log("User login");
   try {
-    const { username, password } = req.body;
+    const { username, encryptedPassword } = req.body;
     const user = await User.findByUsername(username);
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+
+    const password = decryptPassword(encryptedPassword);
+    console.log("pw: ", password);
 
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);

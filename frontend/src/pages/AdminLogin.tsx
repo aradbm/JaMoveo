@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { User } from "../types";
 import { API_URL } from "../config";
+import { encryptPassword } from "../utils/encryption";
 
 type AdminLoginProps = {
   onLogin: (user: User) => void;
@@ -15,10 +16,11 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
     e.preventDefault();
     setError("");
     try {
+      const encryptedPassword = encryptPassword(password);
       const response = await fetch(API_URL + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, encryptedPassword }),
       });
       if (response.ok) {
         const user = await response.json();

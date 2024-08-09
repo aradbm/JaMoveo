@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { User, Instrument } from "../types";
 import { API_URL } from "../config";
 import Logo from "../components/Logo";
+import { encryptPassword } from "../utils/encryption";
 
 type RegisterProps = {
   onRegister: (user: User) => void;
@@ -18,10 +19,12 @@ const Register = ({ onRegister }: RegisterProps) => {
     e.preventDefault();
     console.log("Registering user...");
     try {
+      const encryptedPassword = encryptPassword(password);
+
       const response = await fetch(API_URL + "/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, instrument }),
+        body: JSON.stringify({ username, encryptedPassword, instrument }),
       });
       if (response.ok) {
         const user = await response.json();
