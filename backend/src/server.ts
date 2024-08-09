@@ -5,15 +5,17 @@ import http from "http";
 import startWebSocketServer from "./config/websocketServer";
 import authRoutes from "./routes/auth";
 import searchRoutes from "./routes/search";
-const PORT: number = Number(process.env.PORT) || 8080;
 import cors from "cors";
+
+const PORT: number = Number(process.env.PORT) || 8080;
+const ORIGIN: string = process.env.ORIGIN || "http://localhost:5173";
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const corsOptions = {
-  origin: "http://localhost:5173", // This should be your frontend URL
+  origin: ORIGIN,
   optionsSuccessStatus: 200,
 };
 
