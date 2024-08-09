@@ -1,13 +1,14 @@
-// src/components/Login.tsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { User } from "../types";
 import { API_URL } from "../config";
-interface LoginProps {
-  onLogin: (user: User) => void;
-}
+import Logo from "../components/Logo";
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+type LoginProps = {
+  onLogin: (user: User) => void;
+};
+
+const Login = ({ onLogin }: LoginProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -32,26 +33,37 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      <Link to="/register">Register</Link>
+    <div className="page-container">
+      <div className="form-container">
+        <Logo />
+        <h2 className="form-title">Login to Jamoveo</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+            />
+          </div>
+          <button type="submit" className="submit-button">
+            Login
+          </button>
+        </form>
+        <div className="link-text">
+          New to Jamoveo? <Link to="/register">Create an account</Link>
+        </div>
+      </div>
     </div>
   );
 };

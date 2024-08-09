@@ -1,8 +1,8 @@
-// src/components/Register.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { User, Instrument } from "../types";
 import { API_URL } from "../config";
+import Logo from "../components/Logo";
 
 type RegisterProps = {
   onRegister: (user: User) => void;
@@ -26,7 +26,6 @@ const Register = ({ onRegister }: RegisterProps) => {
         const user = await response.json();
         onRegister(user);
       } else {
-        // Handle registration error
         console.error("Registration failed");
       }
     } catch (error) {
@@ -35,38 +34,51 @@ const Register = ({ onRegister }: RegisterProps) => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <select
-          value={instrument}
-          onChange={(e) => setInstrument(e.target.value as Instrument)}
-          required
-        >
-          <option value="guitar">Guitar</option>
-          <option value="bass">Bass</option>
-          <option value="drums">Drums</option>
-          <option value="vocals">Vocals</option>
-          <option value="keyboard">Keyboard</option>
-          <option value="saxophone">Saxophone</option>
-        </select>
-        <button type="submit">Register</button>
-      </form>
-      <Link to="/login">Login</Link>
+    <div className="page-container">
+      <div className="form-container">
+        <Logo />
+        <h2 className="form-title">Register to JaMoveo</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div className="input-group">
+            <select
+              value={instrument}
+              onChange={(e) => setInstrument(e.target.value as Instrument)}
+              required
+            >
+              <option value="guitar">Guitar</option>
+              <option value="bass">Bass</option>
+              <option value="drums">Drums</option>
+              <option value="vocals">Vocals</option>
+              <option value="keyboard">Keyboard</option>
+              <option value="saxophone">Saxophone</option>
+            </select>
+          </div>
+          <button type="submit" className="submit-button">
+            Register
+          </button>
+        </form>
+        <div className="link-text">
+          Already have an account? <Link to="/login">Login</Link>
+        </div>
+      </div>
     </div>
   );
 };

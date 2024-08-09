@@ -1,4 +1,3 @@
-// src/types.ts
 export type Instrument =
   | "guitar"
   | "bass"
@@ -16,4 +15,4 @@ export interface User {
 
 export type Song = Array<Array<{ lyrics: string; chords?: string }>>;
 
-export type ConnectedUser = [username: string, instrument: string]; // [username, instrument]
+export type ConnectedUser = [username: string, instrument: string];

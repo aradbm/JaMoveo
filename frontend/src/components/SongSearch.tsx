@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { API_URL } from "../config";
+import "./SongSearch.css";
 
-interface SongSearchProps {
+type SongSearchProps = {
   onSongSelect: (songId: string) => void;
-}
+};
 
 const SongSearch = ({ onSongSelect }: SongSearchProps) => {
   const [query, setQuery] = useState("");
@@ -28,21 +29,35 @@ const SongSearch = ({ onSongSelect }: SongSearchProps) => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for a song"
-      />
-      <button onClick={handleSearch}>Search</button>
-      <ul>
-        {results.map((result) => (
-          <li key={result.title} onClick={() => onSongSelect(result.title)}>
-            {result.title} - {result.preview}
-          </li>
-        ))}
-      </ul>
+    <div className="song-search-wrapper">
+      <div className="song-search">
+        <div className="search-input-container">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for a song"
+            className="search-input"
+          />
+          <button onClick={handleSearch} className="search-button">
+            Search
+          </button>
+        </div>
+        {results.length > 0 && (
+          <ul className="search-results">
+            {results.map((result) => (
+              <li
+                key={result.title}
+                onClick={() => onSongSelect(result.title)}
+                className="search-result-item"
+              >
+                <span className="result-title">{result.title}</span>
+                <span className="result-preview">{result.preview}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

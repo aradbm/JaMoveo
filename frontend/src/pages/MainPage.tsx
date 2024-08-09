@@ -53,14 +53,6 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
     };
   }, [user.username]);
 
-  const handleLogout = () => {
-    if (socket) {
-      socket.send(JSON.stringify({ type: "leaveSession" }));
-      socket.close();
-    }
-    onLogout();
-  };
-
   const handleSongSelect = (songId: string) => {
     if (socket && user.isAdmin) {
       socket.send(JSON.stringify({ type: "songSelected", songId }));
@@ -74,7 +66,7 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
       );
     } else {
       if (user.isAdmin) {
-        return <p>Please select a song:</p>;
+        return <p>Search for a song (lyrics based):</p>;
       } else {
         return <p>Waiting for admin to pick a song...</p>;
       }
@@ -82,29 +74,34 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
   };
 
   return (
-    <div>
-      <h1>
-        Welcome, {user.username}! your instrument: {user.instrument}
-      </h1>
-      <button onClick={handleLogout}>Logout</button>
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1 }}>
+    <div className="main-page">
+      <header className="main-header">
+        <div className="header-content">
+          <h1>Welcome, {user.username}!</h1>
+          <p>Your instrument: {user.instrument}</p>
+        </div>
+        <button onClick={onLogout}>Logout</button>
+      </header>
+      <div className="main-content">
+        <div className="song-section">
           {renderSongContent()}
           {user.isAdmin && !currentSong && (
             <SongSearch onSongSelect={handleSongSelect} />
           )}
           {user.isAdmin && currentSong && (
-            <button onClick={() => handleSongSelect("")}>
+            <button
+              onClick={() => handleSongSelect("")}
+              className="change-song-button"
+            >
               Choose Another Song
             </button>
           )}
         </div>
-        <div style={{ width: "200px" }}>
+        <div className="user-list-section">
           <UserList users={connectedUsers} />
         </div>
       </div>
     </div>
   );
 };
-
 export default MainPage;

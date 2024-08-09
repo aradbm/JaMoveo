@@ -1,25 +1,32 @@
 .song-display {
-  font-family: monospace;
-  margin: 20px;
-  white-space: pre;
-  overflow-x: auto;
-}
-
-.song-section {
-  margin-bottom: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .song-line {
-  margin-bottom: 5px;
-  display: block;
+  margin-bottom: 20px;
 }
 
 .chord-line {
-  color: #1a73e8;
+  color: #3498db;
   font-weight: bold;
   height: 1.2em;
 }
 
 .lyric-line {
-  display: block;
+  margin-top: 5px;
+}
+
+.chord, .lyric {
+  display: inline-block;
+  min-width: 50px;
+}
+
+.chord {
+  text-align: left;
 }

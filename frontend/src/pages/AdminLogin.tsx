@@ -1,61 +1,70 @@
-// src/components/AdminLogin.tsx
 import React, { useState } from "react";
 import { User } from "../types";
 import { API_URL } from "../config";
-interface AdminLoginProps {
-  onLogin: (user: User) => void;
-}
 
-const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+type AdminLoginProps = {
+  onLogin: (user: User) => void;
+};
+
+const AdminLogin = ({ onLogin }: AdminLoginProps) => {
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("123456");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     try {
       const response = await fetch(API_URL + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      console.log(response);
       if (response.ok) {
         const user = await response.json();
-        console.log("Server response:", user);
-
         if (user.isAdmin) {
           onLogin(user);
         } else {
-          console.error("Not an admin user");
+          setError("Not an admin user. Please use admin credentials.");
         }
       } else {
-        console.error("Admin login failed");
+        setError("Admin login failed. Please check your credentials.");
       }
     } catch (error) {
+      setError("An error occurred during admin login. Please try again.");
       console.error("Error during admin login:", error);
     }
   };
 
   return (
-    <div>
-      <h2>Admin Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Admin Username"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Admin Password"
-          required
-        />
-        <button type="submit">Login as Admin</button>
-      </form>
+    <div className="page-container">
+      <div className="form-container">
+        <h2 className="form-title">Admin Login</h2>
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Admin Username"
+              required
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Admin Password"
+              required
+            />
+          </div>
+          <button type="submit" className="submit-button">
+            Login as Admin
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
