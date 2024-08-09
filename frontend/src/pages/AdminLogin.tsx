@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { User } from "../types";
-import { API_URL } from "../config";
-import { encryptPassword } from "../utils/encryption";
+import { api } from "../utils/api";
 
 type AdminLoginProps = {
   onLogin: (user: User) => void;
@@ -15,26 +14,15 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    try {
-      const encryptedPassword = encryptPassword(password);
-      const response = await fetch(API_URL + "/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, encryptedPassword }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        if (user.isAdmin) {
-          onLogin(user);
-        } else {
-          setError("Not an admin user. Please use admin credentials.");
-        }
+    const user = await api.login(username, password, true);
+    if (user) {
+      if (user.isAdmin) {
+        onLogin(user);
       } else {
-        setError("Admin login failed. Please check your credentials.");
+        setError("Not an admin user. Please use admin credentials.");
       }
-    } catch (error) {
-      setError("An error occurred during admin login. Please try again.");
-      console.error("Error during admin login:", error);
+    } else {
+      setError("Admin login failed. Please check your credentials.");
     }
   };
 

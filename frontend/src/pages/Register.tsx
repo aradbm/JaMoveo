@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { User, Instrument } from "../types";
-import { API_URL } from "../config";
+import { api } from "../utils/api";
+import { validateUsername, validatePassword } from "../utils/validation";
 import Logo from "../components/Logo";
-import { encryptPassword } from "../utils/encryption";
 
 type RegisterProps = {
   onRegister: (user: User) => void;
@@ -17,25 +17,27 @@ const Register = ({ onRegister }: RegisterProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Registering user...");
-    try {
-      const encryptedPassword = encryptPassword(password);
 
-      const response = await fetch(API_URL + "/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, encryptedPassword, instrument }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        onRegister(user);
-      } else {
-        console.error("Registration failed");
-        setError("Registration failed");
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
-      setError("An error occurred while registering");
+    // Validate username
+    const usernameError = validateUsername(username);
+    if (usernameError) {
+      setError(usernameError);
+      return;
+    }
+
+    // Validate password
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    // If validation passes, proceed with registration
+    const user = await api.register(username, password, instrument);
+    if (user) {
+      onRegister(user);
+    } else {
+      setError("Registration failed");
     }
   };
 
