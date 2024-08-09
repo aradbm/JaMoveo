@@ -1,0 +1,18 @@
+.live-box {
+    display: flex;
+    align-items: center;
+    background-color: #ff3b30;
+    padding: 0px 30px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  
+  .live-icon {
+    margin-right: 5px;
+    font-size: 30px;
+  }

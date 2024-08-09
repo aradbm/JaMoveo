@@ -11,6 +11,7 @@ type LoginProps = {
 const Login = ({ onLogin }: LoginProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +27,11 @@ const Login = ({ onLogin }: LoginProps) => {
       } else {
         // Handle login error
         console.error("Login failed");
+        setError("Invalid username or password");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      setError("An error occurred while logging in");
     }
   };
 
@@ -37,6 +40,7 @@ const Login = ({ onLogin }: LoginProps) => {
       <div className="form-container">
         <Logo />
         <h2 className="form-title">Login to Jamoveo</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <input
@@ -56,7 +60,7 @@ const Login = ({ onLogin }: LoginProps) => {
               required
             />
           </div>
-          <button type="submit" className="submit-button">
+          <button type="submit" className="button button--full-width">
             Login
           </button>
         </form>

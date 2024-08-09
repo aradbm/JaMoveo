@@ -4,6 +4,7 @@ import SongDisplay from "../components/SongDisplay";
 import UserList from "../components/UserList";
 import SongSearch from "../components/SongSearch";
 import { SOCKET_URL } from "../config";
+import Live from "../components/Live";
 
 type MainPageProps = {
   user: User;
@@ -73,6 +74,24 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
     }
   };
 
+  const renderChooseSongButton = () => {
+    if (currentSong) {
+      if (user.isAdmin) {
+        return (
+          <button
+            onClick={() => handleSongSelect("")}
+            className="button button--full-width"
+          >
+            Choose Another Song
+          </button>
+        );
+      } else {
+        return <Live />;
+      }
+    }
+    return null;
+  };
+
   return (
     <div className="main-page">
       <header className="main-header">
@@ -80,7 +99,9 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
           <h1>Welcome, {user.username}!</h1>
           <p>Your instrument: {user.instrument}</p>
         </div>
-        <button onClick={onLogout}>Logout</button>
+        <button onClick={onLogout} className="button button--outline">
+          Logout
+        </button>
       </header>
       <div className="main-content">
         <div className="song-section">
@@ -88,16 +109,9 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
           {user.isAdmin && !currentSong && (
             <SongSearch onSongSelect={handleSongSelect} />
           )}
-          {user.isAdmin && currentSong && (
-            <button
-              onClick={() => handleSongSelect("")}
-              className="change-song-button"
-            >
-              Choose Another Song
-            </button>
-          )}
         </div>
         <div className="user-list-section">
+          {renderChooseSongButton()}
           <UserList users={connectedUsers} />
         </div>
       </div>

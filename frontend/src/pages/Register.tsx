@@ -12,6 +12,7 @@ const Register = ({ onRegister }: RegisterProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [instrument, setInstrument] = useState<Instrument>("guitar");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,9 +28,11 @@ const Register = ({ onRegister }: RegisterProps) => {
         onRegister(user);
       } else {
         console.error("Registration failed");
+        setError("Registration failed");
       }
     } catch (error) {
       console.error("Error during registration:", error);
+      setError("An error occurred while registering");
     }
   };
 
@@ -38,6 +41,7 @@ const Register = ({ onRegister }: RegisterProps) => {
       <div className="form-container">
         <Logo />
         <h2 className="form-title">Register to JaMoveo</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <input
@@ -71,7 +75,7 @@ const Register = ({ onRegister }: RegisterProps) => {
               <option value="saxophone">Saxophone</option>
             </select>
           </div>
-          <button type="submit" className="submit-button">
+          <button type="submit" className="button button--full-width">
             Register
           </button>
         </form>

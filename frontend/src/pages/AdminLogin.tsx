@@ -60,7 +60,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
               required
             />
           </div>
-          <button type="submit" className="submit-button">
+          <button type="submit" className="button button--full-width">
             Login as Admin
           </button>
         </form>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { API_URL } from "../config";
-import "./SongSearch.css";
+// import "./SongSearch.css";
 
 type SongSearchProps = {
   onSongSelect: (songId: string) => void;
@@ -39,7 +39,8 @@ const SongSearch = ({ onSongSelect }: SongSearchProps) => {
             placeholder="Search for a song"
             className="search-input"
           />
-          <button onClick={handleSearch} className="search-button">
+          <div style={{ width: "10px" }} />
+          <button onClick={handleSearch} className="button">
             Search
           </button>
         </div>
