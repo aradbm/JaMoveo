@@ -6,6 +6,7 @@ import startWebSocketServer from "./config/websocketServer";
 import authRoutes from "./routes/auth";
 import searchRoutes from "./routes/search";
 import cors from "cors";
+import path from "path";
 
 const PORT: number = Number(process.env.PORT) || 8080;
 const ORIGIN: string = process.env.ORIGIN || "http://localhost:5173";
@@ -20,9 +21,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use(express.json());
 app.use("/search", searchRoutes);
 app.use("/auth", authRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
 
 const startServer = async () => {
   try {

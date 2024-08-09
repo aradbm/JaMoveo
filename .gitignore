@@ -6,3 +6,4 @@ backend/.env
 frontend/.env
 file_list.py
 /scripts
+/frontend/dist
