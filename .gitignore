@@ -3,3 +3,5 @@ frontend/node_modules
 *.pdf
 .DS_Store
 backend/.env
+frontend/.env
+file_list.py

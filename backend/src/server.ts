@@ -6,11 +6,18 @@ import startWebSocketServer from "./config/websocketServer";
 import authRoutes from "./routes/auth";
 import searchRoutes from "./routes/search";
 const PORT: number = Number(process.env.PORT) || 8080;
+import cors from "cors";
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
+const corsOptions = {
+  origin: "http://localhost:5173", // This should be your frontend URL
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/search", searchRoutes);
 app.use("/auth", authRoutes);

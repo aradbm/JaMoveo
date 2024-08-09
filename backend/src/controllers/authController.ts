@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import User from "../models/user";
 
 export const signup = async (req: Request, res: Response) => {
+  console.log("User signup");
   try {
     const { username, password, instrument, isAdmin = false } = req.body;
 
@@ -23,16 +24,16 @@ export const signup = async (req: Request, res: Response) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ message: "Error in signup", error });
   }
 };
 
 export const login = async (req: Request, res: Response) => {
+  console.log("User login");
   try {
     const { username, password } = req.body;
-
     const user = await User.findByUsername(username);
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -44,14 +45,8 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    res.json({
-      user: {
-        id: user._id,
-        username: user.username,
-        isAdmin: user.isAdmin,
-        instrument: user.instrument,
-      },
-    });
+    console.log("returning user: ", user);
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: "Error in login", error });
   }

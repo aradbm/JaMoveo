@@ -1,0 +1,25 @@
+.song-display {
+  font-family: monospace;
+  margin: 20px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.song-section {
+  margin-bottom: 20px;
+}
+
+.song-line {
+  margin-bottom: 5px;
+  display: block;
+}
+
+.chord-line {
+  color: #1a73e8;
+  font-weight: bold;
+  height: 1.2em;
+}
+
+.lyric-line {
+  display: block;
+}
