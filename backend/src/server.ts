@@ -9,14 +9,17 @@ import cors from "cors";
 import path from "path";
 
 const PORT: number = Number(process.env.PORT) || 8080;
-const ORIGIN: string = process.env.ORIGIN || "http://localhost:5173";
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const corsOptions = {
-  origin: ORIGIN,
+  origin: [
+    "http://jamoveo.ddns.net:8080",
+    "http://localhost:5173",
+    "http://localhost:8080",
+  ],
   optionsSuccessStatus: 200,
 };
 
@@ -27,7 +30,7 @@ app.use("/search", searchRoutes);
 app.use("/auth", authRoutes);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  res.sendFile(path.join(__dirname, "../../frontend/dist", "index.html"));
 });
 
 const startServer = async () => {
