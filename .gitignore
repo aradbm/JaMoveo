@@ -5,3 +5,4 @@ frontend/node_modules
 backend/.env
 frontend/.env
 file_list.py
+/scripts
