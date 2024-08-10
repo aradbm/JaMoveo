@@ -2,6 +2,8 @@
 
 JaMoveo is a live music session player that allows users to collaborate in real-time music sessions.
 
+Try right now at [jamoveo.ddns.net](http://jamoveo.ddns.net:8080/)!
+
 ## Features
 
 - User Authentication:
