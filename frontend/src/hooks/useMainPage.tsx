@@ -19,17 +19,27 @@ export const useMainPage = (user: User) => {
       const message = JSON.parse(event.data);
       switch (message.type) {
         case "songSelected":
-          if (Array.isArray(message.data) || message.data === null) {
-            setCurrentSong(message.data);
+          if (message.data === null) {
+            setCurrentSong(null);
+            return;
+          }
+          let songContent = message.data.content;
+          if (Array.isArray(songContent) || songContent === null) {
+            setCurrentSong(songContent);
           } else {
             console.error(
               "Received song data is not in the correct format:",
-              message.data
+              songContent
             );
           }
           break;
         case "users":
           setConnectedUsers(message.data);
+          break;
+        case "error":
+          console.error("WebSocket error:", message.message);
+          if (message.message === "User already in") window.location.reload();
+          socket?.close();
           break;
       }
     };

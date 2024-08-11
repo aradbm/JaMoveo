@@ -1,22 +1,33 @@
 import { useState } from "react";
 import { API_URL } from "../config";
-// import "./SongSearch.css";
 
 type SongSearchProps = {
-  onSongSelect: (songId: string) => void;
+  onSongSelect: (songId: string) => Promise<void>; // Changed to return a Promise
+};
+
+type SongSearchResult = {
+  songName: string;
+  artistName: string;
+  url: string;
 };
 
 const SongSearch = ({ onSongSelect }: SongSearchProps) => {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<
-    Array<{ title: string; preview: string }>
-  >([]);
+  const [results, setResults] = useState<SongSearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isLoadingSong, setIsLoadingSong] = useState(false);
 
   const handleSearch = async () => {
+    if (!query.trim()) return;
+
+    setIsSearching(true);
+    setResults([]);
+
     try {
       const response = await fetch(
-        `${API_URL}/search?q=${encodeURIComponent(query)}`
+        `${API_URL}/tabsearch?q=${encodeURIComponent(query)}`
       );
+      console.log("response:   ", response);
       if (response.ok) {
         const data = await response.json();
         setResults(data);
@@ -25,6 +36,18 @@ const SongSearch = ({ onSongSelect }: SongSearchProps) => {
       }
     } catch (error) {
       console.error("Error during search:", error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSongSelect = async (url: string) => {
+    setIsLoadingSong(true);
+    try {
+      await onSongSelect(url);
+    } catch (error) {
+      console.error("Error loading song:", error);
+      setIsLoadingSong(false); // Reset loading state if there's an error
     }
   };
 
@@ -40,20 +63,28 @@ const SongSearch = ({ onSongSelect }: SongSearchProps) => {
             className="search-input"
           />
           <div style={{ width: "10px" }} />
-          <button onClick={handleSearch} className="button">
-            Search
+          <button
+            onClick={handleSearch}
+            className={`button ${isSearching ? "loading" : ""}`}
+            disabled={isSearching || isLoadingSong}
+          >
+            {isSearching ? "Searching..." : "Search"}
           </button>
         </div>
-        {results.length > 0 && (
+
+        {isLoadingSong && (
+          <div className="loading-indicator">Loading selected song...</div>
+        )}
+        {!isSearching && !isLoadingSong && results.length > 0 && (
           <ul className="search-results">
             {results.map((result) => (
               <li
-                key={result.title}
-                onClick={() => onSongSelect(result.title)}
+                key={result.url}
+                onClick={() => handleSongSelect(result.url)}
                 className="search-result-item"
               >
-                <span className="result-title">{result.title}</span>
-                <span className="result-preview">{result.preview}</span>
+                <span className="result-title">{result.songName}</span>
+                <span className="result-preview">{result.artistName}</span>
               </li>
             ))}
           </ul>

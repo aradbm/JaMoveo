@@ -4,7 +4,7 @@ import SongSearch from "../components/SongSearch";
 import Live from "../components/Live";
 import { User } from "../types";
 import { useMainPage } from "../hooks/useMainPage";
-
+// i want to ignore in this file typescript
 type MainPageProps = {
   user: User;
   onLogout: () => void;
@@ -60,7 +60,7 @@ const MainPage = ({ user, onLogout }: MainPageProps) => {
         <div className="song-section">
           {renderSongContent()}
           {user.isAdmin && !currentSong && (
-            <SongSearch onSongSelect={handleSongSelect} />
+            <SongSearch onSongSelect={handleSongSelect as any} />
           )}
         </div>
         <div className="user-list-section">

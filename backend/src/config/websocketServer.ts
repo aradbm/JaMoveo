@@ -8,6 +8,7 @@ import {
   JoinSessionMessage,
   UpdateSongMessage,
 } from "../types/weMessage";
+import scrapeSong from "../utils/getSong";
 
 const songsFilePath = path.join(__dirname, "../data");
 
@@ -107,10 +108,14 @@ const startWebSocketServer = (wss: WebSocketServer): void => {
 
     async function handleSongSelected(message: UpdateSongMessage) {
       const { songId } = message;
+      
       if (songId) {
         try {
-          currentSong = await fetchSongFromFile(songId);
-          console.log("Selected song:", currentSong);
+          // currentSong = await fetchSongFromFile(songId);
+          let song = await scrapeSong(songId);
+          currentSong = song;
+
+          // console.log("Selected song:", currentSong);
         } catch (error) {
           console.error("Error fetching song:", error);
           return;
@@ -158,7 +163,12 @@ const startWebSocketServer = (wss: WebSocketServer): void => {
         }
         try {
           const songData = JSON.parse(data);
-          resolve(songData);
+          const song: Song = {
+            title: "SongTitle",
+            artist: "SongArtist",
+            content: songData,
+          };
+          resolve(song);
         } catch (parseErr) {
           reject(parseErr);
         }

@@ -5,6 +5,7 @@ import http from "http";
 import startWebSocketServer from "./config/websocketServer";
 import authRoutes from "./routes/auth";
 import searchRoutes from "./routes/search";
+import tabSearchRoutes from "./routes/tabsSearch";
 import cors from "cors";
 import path from "path";
 
@@ -27,6 +28,7 @@ app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use(express.json());
 app.use("/search", searchRoutes);
+app.use("/tabsearch", tabSearchRoutes);
 app.use("/auth", authRoutes);
 
 app.get("*", (req, res) => {
