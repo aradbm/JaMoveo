@@ -18,6 +18,8 @@ Try right now at [jamoveo.ddns.net](http://jamoveo.ddns.net:8080/)!
   - Show current connected users
 - Multilingual Support - English & Hebrew language support
 - Auto scroll
+- Find songs by scraping Tab4U website
+- Display song's lyrics and chords from Tab4U website
 
 ## Technologies
 
