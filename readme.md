@@ -1,8 +1,11 @@
 # JaMoveo
 
-JaMoveo is a live music session player that allows users to collaborate in real-time music sessions.
+JaMoveo is a live music session player.
 
-Try right now at [jamoveo.ddns.net](http://jamoveo.ddns.net:8080/)!
+- Try right now at [jamoveo.ddns.net](http://jamoveo.ddns.net:8080/)!
+- For admin access, go to [jamoveo.ddns.net/admin](http://jamoveo.ddns.net:8080/admin) and sign in with the following credentials: (username: admin, password: 123456)
+
+[![JaMoveo](metadata/Screenshot1.png)](http://jamoveo.ddns.net:8080/)
 
 ## Features
 
