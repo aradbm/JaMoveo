@@ -6,9 +6,7 @@ export const connectToMongoDB = async (): Promise<void> => {
   try {
     await mongoose.connect(MONGOURL);
     await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    console.log("Pinged MongoDB successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error);
     process.exit(1);

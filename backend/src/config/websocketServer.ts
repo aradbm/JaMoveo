@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import User from "../models/user";
 import { WebSocketServer, WebSocket } from "ws";
 import { Song } from "../types/song";
@@ -9,8 +7,6 @@ import {
   UpdateSongMessage,
 } from "../types/weMessage";
 import scrapeSong from "../utils/getSong";
-
-const songsFilePath = path.join(__dirname, "../data");
 
 const startWebSocketServer = (wss: WebSocketServer): void => {
   const connections = new Map<string, WebSocket>(); // username -> WebSocket
@@ -108,14 +104,11 @@ const startWebSocketServer = (wss: WebSocketServer): void => {
 
     async function handleSongSelected(message: UpdateSongMessage) {
       const { songId } = message;
-      
+
       if (songId) {
         try {
-          // currentSong = await fetchSongFromFile(songId);
           let song = await scrapeSong(songId);
           currentSong = song;
-
-          // console.log("Selected song:", currentSong);
         } catch (error) {
           console.error("Error fetching song:", error);
           return;
@@ -151,29 +144,6 @@ const startWebSocketServer = (wss: WebSocketServer): void => {
       connection.send(message);
     });
     console.log("Broadcasted current users:", users);
-  }
-
-  async function fetchSongFromFile(songId: string): Promise<Song> {
-    return new Promise((resolve, reject) => {
-      const filePath = path.join(songsFilePath, `${songId}.json`);
-      fs.readFile(filePath, "utf-8", (err, data) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        try {
-          const songData = JSON.parse(data);
-          const song: Song = {
-            title: "SongTitle",
-            artist: "SongArtist",
-            content: songData,
-          };
-          resolve(song);
-        } catch (parseErr) {
-          reject(parseErr);
-        }
-      });
-    });
   }
 };
 

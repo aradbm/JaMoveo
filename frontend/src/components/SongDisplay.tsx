@@ -70,14 +70,26 @@ const SongDisplay = ({ song, userInstrument }: SongDisplayProps) => {
             <div key={lineIndex} className="song-line" style={rtlStyle}>
               {showChords && (
                 <div className="chord-line" style={rtlStyle}>
-                  {line.map((part, partIndex) => (
-                    <span
-                      key={`chord-${lineIndex}-${partIndex}`}
-                      className="chord"
-                    >
-                      {part.chords || "\u00A0"}
-                    </span>
-                  ))}
+                  {isLineRTL
+                    ? line
+                        .slice()
+                        .reverse()
+                        .map((part, partIndex) => (
+                          <span
+                            key={`chord-${lineIndex}-${partIndex}`}
+                            className="chord"
+                          >
+                            {part.chords || "\u00A0"}
+                          </span>
+                        ))
+                    : line.map((part, partIndex) => (
+                        <span
+                          key={`chord-${lineIndex}-${partIndex}`}
+                          className="chord"
+                        >
+                          {part.chords || "\u00A0"}
+                        </span>
+                      ))}
                 </div>
               )}
               <div className="lyric-line" style={rtlStyle}>
