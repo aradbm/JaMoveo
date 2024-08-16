@@ -2,7 +2,7 @@ import { API_URL } from "../config";
 import { encryptPassword } from "./encryption";
 import { User, Instrument } from "../types";
 
-export const api = {
+export const auth = {
   login: async (
     username: string,
     password: string,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -11,7 +11,7 @@ import AdminLogin from "./pages/AdminLogin";
 import MainPage from "./pages/MainPage";
 import { User } from "./types";
 
-const App: React.FC = () => {
+const App = () => {
   const [user, setUser] = useState<User | null>(null);
 
   const handleLogin = (loggedInUser: User) => {

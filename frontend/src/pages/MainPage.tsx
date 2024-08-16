@@ -4,7 +4,7 @@ import SongSearch from "../components/SongSearch";
 import Live from "../components/Live";
 import { User } from "../types";
 import { useMainPage } from "../hooks/useMainPage";
-// i want to ignore in this file typescript
+
 type MainPageProps = {
   user: User;
   onLogout: () => void;

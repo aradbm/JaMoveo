@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { User } from "../types";
-import { api } from "../utils/api";
+import { auth } from "../utils/api";
 
 type AdminLoginProps = {
   onLogin: (user: User) => void;
@@ -14,7 +14,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    const user = await api.login(username, password, true);
+    const user = await auth.login(username, password, true);
     if (user) {
       if (user.isAdmin) {
         onLogin(user);

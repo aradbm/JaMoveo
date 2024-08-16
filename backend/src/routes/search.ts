@@ -2,6 +2,9 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 
+// Used to search local songs in data folder (sample songs given).
+// Old implementation.
+
 const router = express.Router();
 const songsFilePath = path.join(__dirname, "../data");
 

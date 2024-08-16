@@ -47,7 +47,7 @@ const SongSearch = ({ onSongSelect }: SongSearchProps) => {
       await onSongSelect(url);
     } catch (error) {
       console.error("Error loading song:", error);
-      setIsLoadingSong(false); // Reset loading state if there's an error
+      setIsLoadingSong(false);
     }
   };
 

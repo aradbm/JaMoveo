@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { User, Instrument } from "../types";
-import { api } from "../utils/api";
+import { auth } from "../utils/api";
 import { validateUsername, validatePassword } from "../utils/validation";
 import Logo from "../components/Logo";
 
@@ -33,7 +33,7 @@ const Register = ({ onRegister }: RegisterProps) => {
     }
 
     // If validation passes, proceed with registration
-    const user = await api.register(username, password, instrument);
+    const user = await auth.register(username, password, instrument);
     if (user) {
       onRegister(user);
     } else {

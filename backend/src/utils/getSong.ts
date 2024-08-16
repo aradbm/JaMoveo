@@ -125,8 +125,9 @@ async function scrapeSong(url: string): Promise<Song> {
   }
 
   // Process each row using the processRow function
-  const processedContent: Array<Array<{ lyrics: string; chords?: string }>> =
-    songContent.map(([chordRow, lyricRow]) => processRow(chordRow, lyricRow));
+  const processedContent = songContent.map(([chordRow, lyricRow]) =>
+    processRow(chordRow, lyricRow)
+  );
 
   const song: Song = {
     title: "Song Title",

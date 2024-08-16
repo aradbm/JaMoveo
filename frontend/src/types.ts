@@ -15,4 +15,4 @@ export interface User {
 
 export type Song = Array<Array<{ lyrics: string; chords?: string }>>;
 
-export type ConnectedUser = [username: string, instrument: string];
+export type ConnectedUser = { username: string; instrument: string };

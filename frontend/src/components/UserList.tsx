@@ -37,12 +37,12 @@ const UserList = ({ users }: UserListProps) => {
     <div className="user-list">
       <h3>Connected Users</h3>
       <ul>
-        {users.map((user, index) => {
-          const [username, instrument] = user;
+        {users.map((user: ConnectedUser) => {
+          const { username, instrument } = user;
           const IconComponent = instrumentIcons[instrument as Instrument];
           const color = instrumentColors[instrument as Instrument];
           return (
-            <li key={index} className="user-item">
+            <li key={username} className="user-item">
               <div className="user-avatar" style={{ backgroundColor: color }}>
                 {username.charAt(0).toUpperCase()}
               </div>

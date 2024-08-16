@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Logo from "../components/Logo";
 import { Link } from "react-router-dom";
 import { User } from "../types";
-import { api } from "../utils/api";
+import { auth } from "../utils/api";
 
 type LoginProps = {
   onLogin: (user: User) => void;
@@ -15,7 +15,7 @@ const Login = ({ onLogin }: LoginProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const user = await api.login(username, password);
+    const user = await auth.login(username, password);
     if (user) {
       onLogin(user);
     } else {
